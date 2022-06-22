@@ -39,6 +39,8 @@ func LoadDockerImage(c *gin.Context) {
 func init() {
 	err := os.MkdirAll(imageDataDir, os.ModePerm)
 	if err != nil {
-		logrus.Fatalln("Create dir error")
+		logrus.Fatalln("Create dir error:", imageDataDir)
+	} else {
+		logrus.Infoln("Create dir success:", imageDataDir)
 	}
 }

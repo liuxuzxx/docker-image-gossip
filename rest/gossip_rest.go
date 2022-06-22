@@ -47,5 +47,7 @@ func init() {
 	err := os.MkdirAll(gossipDataDir, os.ModePerm)
 	if err != nil {
 		logrus.Fatalln("Create dir error:", gossipDataDir)
+	} else {
+		logrus.Infoln("Create dir success:", gossipDataDir)
 	}
 }
