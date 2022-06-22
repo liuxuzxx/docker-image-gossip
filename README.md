@@ -18,3 +18,10 @@ docker-image-gossip项目主要是为了处理Kubernetes集群当下载k8s.gcr.i
 bash build-docker.sh
 ```
 本脚本负责编译golang源码，并且打包镜像上传到本机的harbor服务和华为云服务！
+
+# 使用
+
+## 使用curl访问
+```bash
+curl -X POST http://部署的服务ip:port/v1/docker/gossip-image -F "file=@/home/liuxu/Videos/golang-15.tar" -H "Content-Type: multipart/form-data"
+```
