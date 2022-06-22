@@ -3,3 +3,4 @@ logs/
 
 #过滤掉便以结果文件
 cmd/gossiper/gossiper
+rest/*.http

@@ -1,5 +1,5 @@
 /*
- * @Description:  gossip协议实现
+ * @Description:  gossip协议实现(目前采取的方式是全部轮询操作)
  */
 package gossip
 
@@ -12,28 +12,12 @@ import (
 	"os"
 	"path"
 	"strings"
+	"sync"
 
 	"image/gossip/config"
 
 	"github.com/sirupsen/logrus"
 )
-
-func LookupLocalIp() (string, error) {
-	addrs, err := net.InterfaceAddrs()
-
-	if err != nil {
-		logrus.Warnln("Lookup local interface address error!")
-		return "", err
-	}
-	for _, address := range addrs {
-		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				return ipnet.IP.String(), nil
-			}
-		}
-	}
-	return "", nil
-}
 
 //
 //gossip协议的实现，目前先采用轮询的方式来处理
@@ -53,25 +37,27 @@ func (g *Gossiper) Nslookup() []string {
 }
 
 func (g *Gossiper) SpreadImages(filePath string) {
-	addrs := g.filterLocalIP()
+	var wg sync.WaitGroup
+	addrs := g.Nslookup()
+	wg.Add(len(addrs))
 	for _, v := range addrs {
-		go g.sendToPeer(v, filePath)
+		t := v
+		go func() {
+			g.sendToPeer(t, filePath)
+			wg.Done()
+		}()
 	}
+	wg.Wait()
+	g.clearGossipImage(filePath)
 }
 
-func (g *Gossiper) filterLocalIP() []string {
-	addrs := g.Nslookup()
-	ip, err := LookupLocalIp()
+func (g *Gossiper) clearGossipImage(filePath string) {
+	err := os.Remove(filePath)
 	if err != nil {
-		return addrs
+		logrus.Warnln("Delete gossip image fail:", filePath)
+	} else {
+		logrus.Infoln("Delete gossip image success:", filePath)
 	}
-	remoteAddrs := make([]string, 0)
-	for _, v := range addrs {
-		if strings.Compare(v, ip) != 0 {
-			remoteAddrs = append(remoteAddrs, v)
-		}
-	}
-	return remoteAddrs
 }
 
 //
