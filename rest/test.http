@@ -53,17 +53,17 @@ curl http://localhost:8080/v1/log/statistics -H 'Content-Type: application/json'
 
 普通的30个线程
 22859通道
-receiver_submit_report   1449818
-receiver_deliver_report  1449818
+receiver_submit_report   2493075
+receiver_deliver_report  2493073
 
 22863通道
-receiver_submit_report    1450494
-receiver_deliver_report  1450494
+receiver_submit_report    2495640
+receiver_deliver_report  2495640
 
 22851通道
-receiver_submit_report   1450620
-receiver_deliver_report  1450620
+receiver_submit_report   2492316
+receiver_deliver_report  2492316
 
 总量：
-submit = 1449818 + 1450494 + 1450620 = 4350932
-deliver= 1449818 + 1450494 + 1450620 = 4350932
+submit = 2493075 + 2495640 + 2492316 = 7481031
+deliver= 2493073 + 2495640 + 2492316 = 7481029
