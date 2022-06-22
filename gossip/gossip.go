@@ -48,6 +48,7 @@ func (g *Gossiper) SpreadImages(filePath string) {
 		}()
 	}
 	wg.Wait()
+	logrus.Infoln("Every peer load image over!start remove gossip image file!")
 	g.clearGossipImage(filePath)
 }
 

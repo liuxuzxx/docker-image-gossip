@@ -40,12 +40,14 @@ func GossipImage(c *gin.Context) {
 	c.SaveUploadedFile(file, targetFilePath)
 	c.String(http.StatusOK, fmt.Sprintf("%s uploaded success!", file.Filename))
 
-	gossiper.SpreadImages(targetFilePath)
+	go gossiper.SpreadImages(targetFilePath)
 }
 
 func init() {
 	err := os.MkdirAll(gossipDataDir, os.ModePerm)
 	if err != nil {
 		logrus.Fatalln("Create dir error:", gossipDataDir)
+	} else {
+		logrus.Infoln("Create dir success:", gossipDataDir)
 	}
 }
