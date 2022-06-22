@@ -1,0 +1,19 @@
+#定义ServiceMonitor的资源对象
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: docker-image-gossip-service-monitor
+  namespace: share-components
+spec:
+  endpoints:
+    - interval: 15s
+      path: /metrics
+      port: metrics
+  namespaceSelector:
+    matchNames:
+      - share-components
+  selector:
+    matchLabels:
+      app: docker-image-gossip
+      type: k8s-cloud-util

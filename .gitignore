@@ -1,0 +1,5 @@
+#过滤一些文件配置
+logs/
+
+#过滤掉便以结果文件
+cmd/gossiper/gossiper

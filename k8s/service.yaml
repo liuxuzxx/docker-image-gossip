@@ -1,0 +1,23 @@
+#由于需要和外界进行通信，所以还需要一个正常的service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-image-gossip-service
+  namespace: share-components
+  labels:
+    app: docker-image-gossip
+    type: k8s-cloud-util
+spec:
+  selector:
+    app: docker-image-gossip-daemon
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080 
+    - name: metrics
+      protocol: TCP
+      port: 9599
+      targetPort: 9599

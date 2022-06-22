@@ -1,0 +1,40 @@
+#提供Daemonset的资源配置
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: docker-image-gossip-daemon
+  namespace: share-components
+  labels:
+    app: docker-image-gossip-daemon
+spec:
+  selector:
+    matchLabels:
+      app: docker-image-gossip-daemon
+  template:
+    metadata:
+      labels:
+        app: docker-image-gossip-daemon
+    spec:
+      containers:
+        - name: docker-image-gossip-daemon
+          image: 172.16.15.121:10000/cpaas/component/docker-image-gossip:v1.0.0
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 200Mi
+              cpu: 500m
+            requests:
+              cpu: 100m
+              memory: 20Mi
+          ports:
+            - containerPort: 8080
+              name: http
+          volumeMounts:
+            - name: docker-socket
+              mountPath: /var/run/docker.sock
+      volumes:
+        - name: docker-socket
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket

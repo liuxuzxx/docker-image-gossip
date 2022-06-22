@@ -1,0 +1,66 @@
+POST http://localhost:8080/v1/log/statistics
+Content-Type: application/json
+
+{
+    "filePath": "/home/liuxu/Documents/show-busy-java-threads.sh",
+    "keyWord": "cpu",
+    "targetFilePath": "/home/liuxu/Documents/cpu.log"
+}
+
+//22863通道的统计 14服务器
+curl http://localhost:8080/v1/log/statistics -H 'Content-Type: application/json' -d '{
+    "filePath": "/cpaas/cpaas-deliver-receiver-22863/logs/receiver/receiver_deliver_report.log",
+    "keyWord": "receiver_deliver_report",
+    "targetFilePath": "/cpaas/22863-deliver.log"
+}'
+
+
+curl http://localhost:8080/v1/log/statistics -H 'Content-Type: application/json' -d '{
+    "filePath": "/cpaas/cpaas-deliver-receiver-22863/logs/receiver/receiver_submit_report.log",
+    "keyWord": "receiver_submit_report",
+    "targetFilePath": "/cpaas/22863-submit.log"
+}'
+
+
+//22859通道的统计 14服务器
+curl http://localhost:8080/v1/log/statistics -H 'Content-Type: application/json' -d '{
+    "filePath": "/cpaas/cpaas-deliver-receiver-22859/logs/receiver/receiver_deliver_report.log",
+    "keyWord": "receiver_deliver_report",
+    "targetFilePath": "/cpaas/22859-deliver.log"
+}'
+
+
+curl http://localhost:8080/v1/log/statistics -H 'Content-Type: application/json' -d '{
+    "filePath": "/cpaas/cpaas-deliver-receiver-22859/logs/receiver/receiver_submit_report.log",
+    "keyWord": "receiver_submit_report",
+    "targetFilePath": "/cpaas/22859-submit.log"
+}'
+
+//22851通道的统计请求 18服务器上面
+curl http://localhost:8080/v1/log/statistics -H 'Content-Type: application/json' -d '{
+    "filePath": "/root/cpaas/cpaas-deliver-receiver/logs/receiver/receiver_deliver_report.log",
+    "keyWord": "receiver_deliver_report",
+    "targetFilePath": "/root/cpaas/22851-deliver.log"
+}'
+
+
+curl http://localhost:8080/v1/log/statistics -H 'Content-Type: application/json' -d '{
+    "filePath": "/root/cpaas/cpaas-deliver-receiver/logs/receiver/receiver_submit_report.log",
+    "keyWord": "receiver_submit_report",
+    "targetFilePath": "/root/cpaas/22851-submit.log"
+}'
+
+
+普通的30个线程
+22859通道
+receiver_submit_report   622962
+receiver_deliver_report  622962
+
+22963通道
+receiver_submit_report   623309
+receiver_deliver_report  623309
+
+22851通道
+receiver_submit_report   621726
+receiver_deliver_report  621726
+

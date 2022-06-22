@@ -1,0 +1,5 @@
+curl -X POST http://192.168.4.49:8080/v1/docker/gossip-image -F "file=@/media/liuxu/data/rattrap/nfs.tar" -H "Content-Type: multipart/form-data"
+
+
+
+curl -X POST http://172.16.1.11:31939/v1/docker/gossip-image -F "file=@/media/liuxu/data/rattrap/nfs.tar" -H "Content-Type: multipart/form-data"
