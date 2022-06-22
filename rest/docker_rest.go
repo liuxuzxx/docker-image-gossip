@@ -8,8 +8,11 @@ import (
 	"image/gossip/docker"
 	"log"
 	"net/http"
+	"os"
+	"path"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 //
@@ -18,6 +21,7 @@ import (
 
 var (
 	dockerClient = docker.NewDockerClient()
+	imageDataDir = "./data/images"
 )
 
 func LoadDockerImage(c *gin.Context) {
@@ -26,9 +30,15 @@ func LoadDockerImage(c *gin.Context) {
 		log.Fatal(err)
 	}
 
-	targetFilePath := "./data/" + file.Filename
+	targetFilePath := path.Join(imageDataDir, file.Filename)
 	c.SaveUploadedFile(file, targetFilePath)
-	c.String(http.StatusOK, fmt.Sprintf("%s uploaded success!", file.Filename))
-
 	dockerClient.LoadImage(targetFilePath)
+	c.String(http.StatusOK, fmt.Sprintf("%s uploaded success!", file.Filename))
+}
+
+func init() {
+	err := os.MkdirAll(imageDataDir, os.ModePerm)
+	if err != nil {
+		logrus.Fatalln("Create dir error")
+	}
 }

@@ -59,6 +59,12 @@ func (d *DockerClient) LoadImage(tarPath string) {
 	buffer.ReadFrom(response.Body)
 	defer response.Body.Close()
 	logrus.Infoln("查看载入镜像的结果信息:", buffer.String())
+	err = os.Remove(tarPath)
+	if err != nil {
+		logrus.Warnln("Remote file:", tarPath, "fail")
+	} else {
+		logrus.Infoln("Clear file:", tarPath, "success")
+	}
 }
 
 func (d *DockerClient) SaveImage(name, tag string) {

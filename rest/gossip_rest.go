@@ -8,7 +8,7 @@ import (
 	"image/gossip/gossip"
 	"net/http"
 	"os"
-	"strings"
+	"path"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -19,9 +19,9 @@ import (
 //
 
 const (
-	fileParam = "file"
-	hostName  = "docker-image-gossip-headless-service.share-components.svc.cluster.local"
-	dataDir   = "./data"
+	fileParam     = "file"
+	hostName      = "docker-image-gossip-headless-service.share-components.svc.cluster.local"
+	gossipDataDir = "./data/gossip"
 )
 
 var (
@@ -36,15 +36,16 @@ func GossipImage(c *gin.Context) {
 		return
 	}
 
-	targetFilePath := strings.Join([]string{dataDir, file.Filename}, "/")
+	targetFilePath := path.Join(gossipDataDir, file.Filename)
 	c.SaveUploadedFile(file, targetFilePath)
 	c.String(http.StatusOK, fmt.Sprintf("%s uploaded success!", file.Filename))
 
-	go dockerClient.LoadImage(targetFilePath)
 	gossiper.SpreadImages(targetFilePath)
 }
 
 func init() {
-	os.MkdirAll(dataDir, os.ModePerm)
-	logrus.Infoln("创建数据目录：", dataDir)
+	err := os.MkdirAll(gossipDataDir, os.ModePerm)
+	if err != nil {
+		logrus.Fatalln("Create dir error:", gossipDataDir)
+	}
 }
