@@ -40,7 +40,7 @@ func GossipImage(c *gin.Context) {
 	c.SaveUploadedFile(file, targetFilePath)
 	c.String(http.StatusOK, fmt.Sprintf("%s uploaded success!", file.Filename))
 
-	gossiper.SpreadImages(targetFilePath)
+	go gossiper.SpreadImages(targetFilePath)
 }
 
 func init() {
