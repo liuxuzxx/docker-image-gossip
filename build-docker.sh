@@ -8,4 +8,4 @@
 cd cmd/gossiper/
 go build
 cd ../../
-docker build -f ./Dockerfile -t liuxuzxx:docker-image-gossip:v1.0.0 .
+docker build -f ./Dockerfile -t liuxuzxx/docker-image-gossip:v1.0.0 .
